@@ -1,0 +1,29 @@
+{% extends "Teams/TeamBase.html" %}
+{% block content %} 
+
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">Created By: {{ object.creator }} on {{ object.date_created }} &emsp;</small>
+            <small class="text-muted">Due: {{ object.date_due }} &emsp;</small>
+            {% if object.is_complete == True %}
+            <small class="text-muted"><span style="color: darkgreen">Complete: YES</span></small>
+            {% else %}
+            <small class="text-muted"><span style="color: crimson">Complete: NO</span></small>
+            {% endif %}
+            
+        </div>
+        <h2 class="article-title">{{ object.team_chore_name }}</h2>
+        <p class="article-content">{{ object.content }}</p>
+        {% if object.team == user.profile.team %}
+            <a class="btn btn-info btn-sm mt-2 mb-2" href="{% url 'team-task-update' object.id %}">Edit</a>
+            <a class="btn btn-danger btn-sm mt-2 mb-2" href="{% url 'team-task-delete' object.id %}">Delete</a>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button class="btn btn-info btn-sm mt-2 mb-2" name="button" value="Export">Export</button>
+            </form>
+        {% endif %}
+        </div>
+    </article>
+
+{% endblock content %}

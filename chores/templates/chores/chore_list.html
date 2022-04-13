@@ -1,0 +1,34 @@
+{% extends "chores/base.html" %}
+{% block drop %} 
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="toggleview" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      All Chores
+    </button>
+    <div class="dropdown-menu" aria-labelledby="toggleview">
+      <a class="dropdown-item" href="{% url 'chore-home' %}">Incomplete Chores</a>
+      <a class="dropdown-item" href="{% url 'chore-all' %}">All Chores</a>
+    </div>
+  </div>
+  <p></p>
+{% endblock drop %}
+
+{% block content %} 
+  {% for task in tasks %}
+        <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">Created: {{ task.date_created }} &emsp;</small>
+                <small class="text-muted">Due: {{ task.date_due }} &emsp;</small>
+                {% if task.is_complete == True %}
+                <small class="text-muted"><span style="color: darkgreen">Complete: YES</span></small>
+                {% else %}
+                <small class="text-muted"><span style="color: crimson">Complete: NO</span></small>
+                {% endif %}
+                
+            </div>
+            <h2><a class="article-title" href="{% url 'chore-detail' task.id %}">{{ task.chore_name }}</a></h2>
+            <p class="article-content">{{ task.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

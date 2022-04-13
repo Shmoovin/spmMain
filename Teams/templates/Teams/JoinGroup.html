@@ -1,0 +1,20 @@
+{% extends "chores/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  <legend class="border-bottom mb-4">Join an Existing Group</legend>
+                  {{ form|crispy }}
+              </fieldset>
+              <div class ="form-group">
+                <button class="btn btn-outline-success" type="submit">Join!</button>
+              </div>
+
+        </form>
+        <div class="border-top pt-4">
+            <small class="text-muted">Need to create a group? <a class="ml-2" href="{% url 'group-create' %}">Create Group</a> </small>
+        </div>
+    </div>
+{% endblock content %}

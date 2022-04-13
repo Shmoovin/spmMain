@@ -1,0 +1,56 @@
+{% extends "Teams/TeamBase.html" %}
+{% block drop %} 
+
+
+  <div class="btn-toolbar col-md-8">
+    <div class="dropdown">
+      <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="toggleview" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Incomplete Tasks
+      </button>
+      <div class="dropdown-menu" aria-labelledby="toggleview">
+        <a class="dropdown-item" href="{% url 'group-test' %}">Incomplete Tasks</a>
+        <a class="dropdown-item" href="{% url 'group-test-all' %}">All Tasks</a>
+      </div>
+    </div>
+      <div>
+        <a class="btn btn-info btn-sm mx-2" href="{% url 'team-task-create' %}">Create New Task</a>
+      </div>
+  </div>
+  <p></p>
+{% endblock drop %}
+
+{% block content %} 
+
+  {% for GroupTask in GroupTasks %}
+
+        <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">Created By: {{ GroupTask.creator }} on {{ GroupTask.date_created }} &emsp;</small>
+                <small class="text-muted">Due: {{ GroupTask.date_due }} &emsp;</small>
+                {% if GroupTask.is_complete == True %}
+                <small class="text-muted"><span style="color: darkgreen">Complete: YES</span></small>
+                {% else %}
+                <small class="text-muted"><span style="color: crimson">Complete: NO</span></small>
+                {% endif %}
+                
+            </div>
+            <h2><a class="article-title" href="{% url 'team-task-detail' GroupTask.id %}">{{ GroupTask.team_chore_name }}</a></h2>
+            <p class="article-content">{{ GroupTask.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
+{% block sidebar %}
+<div class="col-md-4">
+  <div class="content-section">
+    <h3>Team Members</h3>
+    <p class='text-muted'>
+      <ul class="list-group">
+        {% for member in GroupTasks.first.creator.profile.team.profile_set.all %}
+        <li class="list-group-item list-group-item-light">{{member}}</li>
+        {% endfor %}
+      </ul>
+    </p>
+  </div>
+  {% endblock sidebar %}
